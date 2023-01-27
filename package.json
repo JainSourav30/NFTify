@@ -1,0 +1,25 @@
+{
+  "name": "nftify",
+  "version": "1.0.0",
+  "description": "This is a github repository for a new project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vatsal32/NFTify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vatsal32/NFTify/issues"
+  },
+  "homepage": "https://github.com/Vatsal32/NFTify#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.9.0"
+  }
+}
