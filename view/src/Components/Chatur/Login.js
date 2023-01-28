@@ -84,6 +84,8 @@ const Login = () => {
 						onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {loginData?.data.errors?
+            <div className="text-red-500 font-semibold">{loginData.data.errors.email || loginData.data.errors.password}</div>: null}
       </div>
 
       <button className="bg-violet-700 text-white border-2 w-full rounded-lg border-black p-1 mt-4" onClick={(e) => {
