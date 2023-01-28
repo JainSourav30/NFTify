@@ -5,7 +5,7 @@ import Footer from "./Footer";
 const Navbar = () => {
   return (
     <div>
-      <nav className=" border-gray-200 px-2 sm:px-4 py-2.5 bg-violet-700">
+      <nav className=" border-gray-200 opacity-60 px-2 sm:px-4 py-2.5 bg-violet-700">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <a href="https://flowbite.com/" className="flex items-center">
             <img

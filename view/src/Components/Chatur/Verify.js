@@ -8,25 +8,26 @@ import {TiSortAlphabeticallyOutline} from "react-icons/ti";
 const Verify = () => {
 
 	return (
-    	<section className="flex flex-col justify-center items-center h-screen w-2/3">
-            <div className="flex flex-col justify-evenly items-center h-2/3 w-full bg-gray-100 p-4 rounded-lg border-4 border-black m-5">
-                <div className="text-4xl font-semibold m-7">Verify Product</div>
-                {/* <SiVault size={100} className="m-2 text-purple-800"/> */}
-                <GiBarbedSpear size={100} className="mb-2 text-purple-800"/>
-                {/* <GiChessRook size={100} className="m-2 text-purple-800"/>  */}
-                {/* <GiMonkey size={100} className="m-2 text-purple-800"/>  */}
-                <div className="w-2/3 flex flex-col h-fit p-2 items-center" >
-                    <div className="text-base font-medium my-4">Enter the product ID</div>
-                    <div className="border-2 border-black rounded-lg flex justify-left text-gray-600 bg-white ">
-                        <TiSortAlphabeticallyOutline size={30}/>
-                        <input type="text" name="name" placeholder="Product ID" className="w-full mx-2 " />
+        <div className="flex flex-col justify-center items-center bg-nft bg-cover">
+            <section className="flex flex-col justify-center items-center h-screen w-2/3 ">
+                <div className="flex flex-col justify-evenly items-center h-2/3 w-full bg-gray-100 p-4 rounded-lg border-4 border-black m-5 ">
+                    <div className="text-4xl font-semibold m-7">Verify Product</div>
+                    {/* <SiVault size={100} className="m-2 text-purple-800"/> */}
+                    <GiBarbedSpear size={100} className="mb-2 text-purple-800"/>
+                    {/* <GiChessRook size={100} className="m-2 text-purple-800"/>  */}
+                    {/* <GiMonkey size={100} className="m-2 text-purple-800"/>  */}
+                    <div className="w-2/3 flex flex-col h-fit p-2 items-center" >
+                        <div className="text-base font-medium my-4">Enter the product ID</div>
+                        <div className="border-2 border-black rounded-lg flex justify-left text-gray-600 bg-white ">
+                            <TiSortAlphabeticallyOutline size={30}/>
+                            <input type="text" name="name" placeholder="Product ID" className="w-full mx-2 " />
+                        </div>
+                        <ChooseCompany/>
+                        <button className="bg-violet-700 text-white border-2 w-1/3 rounded-lg border-black mt-4 p-1" >Verify</button>
                     </div>
-                    <ChooseCompany/>
-                    <button className="bg-violet-700 text-white border-2 w-1/3 rounded-lg border-black mt-4 p-1" >Verify</button>
                 </div>
-            </div>
-        
-        </section>
+            </section>
+        </div>
     );
 }
 
