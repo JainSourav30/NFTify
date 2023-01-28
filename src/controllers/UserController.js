@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/Users");
 const CompanyModel = require("../models/Company");
-const ObjectId = require("mongoose").ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const validateEmail = (email) => {
   const re =
@@ -247,7 +247,7 @@ module.exports = {
                   newUser
                     .save()
                     .then(() => {
-                      CompanyModel.remove({ _id: companyInfo._id })
+                      CompanyModel.deleteOne({ _id: companyInfo._id })
                         .then(() => {
                           res.json({
                             message: "Success",
