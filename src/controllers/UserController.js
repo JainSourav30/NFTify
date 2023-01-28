@@ -93,7 +93,7 @@ module.exports = {
 
     let errors = await checkForErrors({
       name,
-      email, 
+      email,
       phone,
       wallet_address,
     });
@@ -233,7 +233,7 @@ module.exports = {
             email: companyInfo.email,
             phone: companyInfo.phone,
             wallet_address: companyInfo.wallet_address,
-            admin: true
+            admin: true,
           });
           bcrypt.genSalt(10, (err, salt) => {
             if (err) {
@@ -285,7 +285,9 @@ module.exports = {
             if (err.name === jwt.TokenExpiredError.name) {
               res.status(440).json({ error: "Session Expired", data: {} });
             } else {
-              res.status(401).json({ error: "Failed to authenticate.", data: {} });
+              res
+                .status(401)
+                .json({ error: "Failed to authenticate.", data: {} });
             }
           } else {
             req.userId = decoded.userId;
@@ -311,7 +313,9 @@ module.exports = {
             if (err.name === "TokenExpiredError") {
               res.status(440).json({ error: "Session Expired.", data: {} });
             } else {
-              res.status(401).json({ error: "Failed to authenticate. ", data: {} });
+              res
+                .status(401)
+                .json({ error: "Failed to authenticate. ", data: {} });
             }
           } else {
             if (decoded.admin) {
