@@ -10,7 +10,7 @@ const Verify = () => {
 	return (
         <div className="flex flex-col justify-center items-center bg-nft bg-cover">
             <section className="flex flex-col justify-center items-center h-screen w-2/3 ">
-                <div className="flex flex-col justify-evenly items-center h-2/3 w-full bg-gray-100 p-4 rounded-lg border-4 border-black m-5 ">
+                <div className="flex flex-col justify-evenly items-center h-2/3 w-full bg-gray-100 p-4 rounded-lg border-4 border-black m-5 bg-opacity-90">
                     <div className="text-4xl font-semibold m-7">Verify Product</div>
                     {/* <SiVault size={100} className="m-2 text-purple-800"/> */}
                     <GiBarbedSpear size={100} className="mb-2 text-purple-800"/>
