@@ -1,12 +1,25 @@
 import React from "react";
 
-const ConnRequest = ({name, phone, mail}) => {
+const ConnRequest = ({name, phone, mail, address}) => {
 
 	return (
-    	<div className="w-full ">
-            {name}
-            {phone}
-            {mail}
+    	<div className="w-4/5 h-fit bg-gray-200 border-2 border-black rounded flex justify-between bg-gradient-to-r from-purple-300 to-blue-300 p-2">
+            <div className=" bg-gray-600 h-full w-4 pl-2"></div>
+            <div className="w-3/4">
+                <div className="font-semibold text-xl mb-2">{name}</div>
+                <div className="flex flex-col ml-6 justify-around">
+                    Phone: {phone}
+                    <br/>
+                    Mail: {mail}
+                    <br/>
+                    Wallet Address: {address}
+                </div>
+            </div>
+            <div >
+                <button className="bg-green-500 h-full mx-1 w-16 border-2 border-black rounded-lg"> Accept</button>
+                <button className="bg-red-600 h-full w-16 border-2 border-black rounded-lg"> Reject</button>
+            </div>
+
         
         </div>
     );
