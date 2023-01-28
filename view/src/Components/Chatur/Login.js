@@ -9,7 +9,6 @@ import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
 
 const handleLogin = async ( email, password ) => {
-	console.log({email, password});
 	const data = await fetch("http://localhost:5001/api/users/login", {
 		method: "POST",
 		headers: {
@@ -37,12 +36,9 @@ const Login = () => {
 			logout();
 		} else if (loginData?.data) {
 			login(loginData.data.token);
+      // TODO: redirect to Dashboard
 		}
 	}, [loginData, login, logout]);
-
-	useEffect(() => {
-		console.log(jwtToken);
-	}, [jwtToken]);
 
   return !close ? (
     <form className=" relative flex flex-col justify-around items-center h-2/3 w-1/2 border-4 p-10 border-black rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
