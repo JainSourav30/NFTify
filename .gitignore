@@ -3,4 +3,6 @@
 /.vscode
 /.DS_Store
 /.idea
+/cache
+/artifacts/view/src/App.js
 /view/src/App.js
