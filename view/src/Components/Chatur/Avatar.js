@@ -6,7 +6,7 @@ const Avatar = ({ size }) => {
   const [showMenu, setShowMenu] = useState(0);
 
   return (
-    <div className="flex flex-col justify-center overflow-visible">
+    <div className="flex flex-col justify-center overflow-visible text-white">
       <button
         onClick={(e) => {
           e.preventDefault();
