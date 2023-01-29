@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConnRequest = ({name, phone, mail, address}) => {
+const ConnRequest = ({name, phone, mail, address, reject}) => {
 
 	return (
     	<div className="w-4/5 h-fit bg-gray-200 border-2 border-black rounded flex justify-between bg-gradient-to-r from-purple-300 to-blue-300 p-2">
@@ -17,10 +17,11 @@ const ConnRequest = ({name, phone, mail, address}) => {
             </div>
             <div >
                 <button className="bg-green-500 h-full mx-1 w-16 border-2 border-black rounded-lg"> Accept</button>
-                <button className="bg-red-600 h-full w-16 border-2 border-black rounded-lg"> Reject</button>
+                <button className="bg-red-600 h-full w-16 border-2 border-black rounded-lg" onClick={(e) => {
+                    e.preventDefault();
+                    reject();
+                }}> Reject</button>
             </div>
-
-        
         </div>
     );
 }

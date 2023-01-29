@@ -1,16 +1,41 @@
-import React, { useState } from "react";
-import testImage from "../../Assets/test_img.jpg";
+import React, { useEffect, useState } from "react";
 import MintNft from "../Chatur/MintNft";
+import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import useNFTityStore from "../../store";
+
+const getAllProducts = async (token) => {
+  const data = await fetch("http://localhost:5001/api/products/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
+  }).then(res => res.json());
+
+  return data;
+};
 
 const ProductCard = () => {
   const [isModal, setIsModal] = useState(false);
+  const [token, logout] = useNFTityStore(state => [state.jwtToken, state.logout]);
+  const [productList, setList] = useState([]);
+  const {data: productData} = useQuery(['products', token], () => getAllProducts(token));
 
-  const productList = [
-    { key: 1, prodName: "Test Product 1", prodImg: testImage },
-    { key: 2, prodName: "Test Product 2", prodImg: testImage },
-    { key: 3, prodName: "Test Product 3", prodImg: testImage },
-    { key: 4, prodName: "Test Product 4", prodImg: testImage },
-  ];
+  useEffect(() => {
+    if (productData?.error) {
+      if (productData?.error === "Session Expired") {
+        logout();
+      }
+    } else if (productData?.message) {
+      let c = productData.data.map((item, index) => ({
+        key: index,
+        prodName: item.category_name,
+        prodImg: item.img
+      }));
+      setList(c);
+    }
+  }, [productData, logout]);
 
   const handleModal = (key) => {
     setIsModal(!isModal);
@@ -33,21 +58,23 @@ const ProductCard = () => {
                   </h5>
                 </a>
                 <div className="inline-flex w-11/12">
-                  <button
-                    className=" m-auto px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600"
-                    onClick={() => {
-                      handleModal(key);
-                    }}
-                  >
-                    Mint NFT
-                  </button>
+                  <Link to={"/mint-nft"}>
+                    <button
+                      className=" m-auto px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600"
+                      onClick={() => {
+                        handleModal(key);
+                      }}
+                    >
+                      Mint NFT
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-      {isModal == true ? (
+      {isModal ? (
         <MintNft setModal={setIsModal} />
       ) : (
         console.log("no modal")

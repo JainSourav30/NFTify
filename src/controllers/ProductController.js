@@ -90,4 +90,23 @@ module.exports = {
       );
     }
   },
+
+  getAll: async (req, res) => {
+    console.log(req.userId);
+
+    ProductModel.find({user_id: req.userId}, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({
+          error: "Something went wrong",
+          data: {},
+        });
+      } else {
+        res.json({
+          message: "Success",
+          data,
+        });
+      }
+    })
+  }
 };

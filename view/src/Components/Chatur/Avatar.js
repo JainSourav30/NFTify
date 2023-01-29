@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import {RxAvatar} from "react-icons/rx";
 import { useNavigate } from "react-router";
+import useNFTityStore from "../../store";
 
 const Avatar = () => {
     const [showMenu, setShowMenu] = useState(0);
 
 	return (
     	<div className="flex flex-col justify-center">
-            <button onClick={(e)=>{e.preventDefault();setShowMenu(!showMenu);}}>
+            <button onClick={(e)=>{e.preventDefault();setShowMenu(showMenu => !showMenu);}}>
                 <RxAvatar size={100} className="m-auto p-0"/>
             </button>
             {showMenu?<ButtonGroup/>: null}
@@ -20,6 +21,9 @@ const ButtonGroup = () =>{
     // const navigate = useNavigate();
     const home = '/home';
     const profile = '/profile-setting';
+    const navigate = useNavigate();
+
+    const [logout] = useNFTityStore(state => [state.logout]);
 
     return (
     <div className="flex flex-col text-sm justify-evenly flex-nowrap border-black border-2 items-center bg-slate-100 divide-black divide-y text-center rounded-lg">
@@ -29,9 +33,13 @@ const ButtonGroup = () =>{
             {/* </button> */}
         </div>
         <div className=" w-full p-2 hover:bg-violet-700 hover:text-white">
-            {/* <button onClick={(e)=>{e.preventDefault();navigate(profile);}}> */}
+            <button onClick={(e) => {
+                e.preventDefault();
+                logout();
+                navigate(home);
+            }}>
                 Log Out
-            {/* </button> */}
+            </button>
         </div>
     </div>
     );

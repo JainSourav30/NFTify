@@ -54,7 +54,7 @@ const Navbar = () => {
                   Login
                 </li>
               </Link>
-              <Link to={"#"}>
+              <Link to={"/avatar"}>
                 <li className="p-4 text-white font-bold hover:scale-110 rounded-md hover:bg-violet-600 transition-all ease-linear ">
                   Avatar
                 </li>
