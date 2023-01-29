@@ -1,9 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 const ButtonGroup = () =>{
 
-    // const navigate = useNavigate();
-    const home = '/home';
+    const navigate = useNavigate();
+    const home = '/';
     const profile = '/profile-setting';
 
     const custStyle = {overlay: {zIndex: 1000}}
@@ -16,9 +17,12 @@ const ButtonGroup = () =>{
             {/* </button> */}
         </div>
         <div className=" w-full p-2 hover:bg-violet-700 hover:text-white">
-            {/* <button onClick={(e)=>{e.preventDefault();navigate(profile);}}> */}
+            <button onClick={(e)=>{
+                e.preventDefault();
+                navigate(home);
+            }}>
                 Log Out
-            {/* </button> */}
+            </button>
         </div>
     </div>
     );

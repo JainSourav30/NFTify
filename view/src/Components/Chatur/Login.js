@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { SiVault } from "react-icons/si";
 import { GiBarbedSpear } from "react-icons/gi";
-import { GiChessRook } from "react-icons/gi";
-import { GiMonkey } from "react-icons/gi";
 import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
 import { useNavigate } from "react-router";
@@ -39,13 +36,12 @@ const Login = () => {
     }
   );
 
-  useEffect(() => {
-    if (loginData?.error) {
-      console.log(loginData.data);
-      logout();
-    } else if (loginData?.data) {
-      login(loginData.data.token, loginData.data.admin);
-      // TODO: redirect to Dashboard
+	useEffect(() => {
+		if (loginData?.error) {
+			console.log(loginData.data);
+			logout();
+		} else if (loginData?.data) {
+			login(loginData.data.token, loginData.data.admin, loginData.data.userId);
       if (loginData.data.admin) {
         navigate("/admin");
       } else {
