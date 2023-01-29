@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
 import plusImage from "../../Assets/plus_sign.png";
+import { useNavigate } from "react-router";
 
 const getAllProducts = async (token) => {
   const data = await fetch("http://localhost:5001/api/products/", {
@@ -19,6 +20,7 @@ const getAllProducts = async (token) => {
 
 const ProductCard = () => {
   const [isModal, setIsModal] = useState(false);
+  const navigate = useNavigate();
   const [token, logout] = useNFTityStore((state) => [
     state.jwtToken,
     state.logout,
@@ -38,6 +40,7 @@ const ProductCard = () => {
         key: index,
         prodName: item.category_name,
         prodImg: item.img,
+        category_id: item._id
       }));
       setList(c);
     }
@@ -51,7 +54,7 @@ const ProductCard = () => {
     <div className="w-screen">
       <div className="grid lg:grid-cols-3 lg:gap-2 md:grid-cols-2  sm:grid-cols-1  m-5">
         <div className=" max-w-xs bg-white border border-gray-200 rounded-xl shadow m-auto">
-          <button className="shadow-sm hover:shadow-xl hover:shadow-violet-500 transition-all">
+          <button className="shadow-sm hover:shadow-xl hover:shadow-violet-500 transition-all" onClick={(e) => {}}>
             <img src={plusImage} className="rounded-t-lg p-6" alt="New Product" />
             <div className="p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
@@ -74,16 +77,14 @@ const ProductCard = () => {
                   </h5>
                 </a>
                 <div className="inline-flex w-11/12">
-                  <Link to={"/mint-nft"}>
                     <button
                       className=" m-auto px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600"
                       onClick={() => {
-                        handleModal(key);
+                        navigate("/mint-nft", { state: {category_id: prod.category_id} })
                       }}
                     >
                       Mint NFT
                     </button>
-                  </Link>
                 </div>
               </div>
             </div>

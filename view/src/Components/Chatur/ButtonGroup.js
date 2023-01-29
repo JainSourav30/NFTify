@@ -8,7 +8,7 @@ const ButtonGroup = () =>{
     const profile = '/profile-setting';
 
     return (
-    <div className="flex flex-col text-sm justify-evenly flex-nowrap border-black border-2 items-center bg-slate-100 divide-black divide-y text-center rounded-lg text-black">
+    <div className="z-50 flex flex-col text-sm justify-evenly flex-nowrap border-black border-2 items-center bg-slate-100 divide-black divide-y text-center rounded-lg text-black">
         <div className="w-full p-2 hover:bg-violet-700 hover:text-white">
             {/* <button onClick={(e)=>{e.preventDefault(); navigate(home);}}>  */}
             Profile Settings

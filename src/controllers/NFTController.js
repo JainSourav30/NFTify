@@ -47,7 +47,6 @@ module.exports = {
                   data: {}
                 });
               } else {
-                console.log(result1.wallet_address);
                 await download(result.img, "./temp/temp.png", async () => {
                   const metadata = await client.store({
                     name: `${result.category_name}-${product_id}`,
@@ -61,8 +60,6 @@ module.exports = {
                   });
                   console.log(metadata.url);
                   const data = await contract.mintNFT(signer.address, metadata.url);
-                  const data1 = await contract.transferOwnership(result1.wallet_address);
-                  console.log(data1);
                   fs.unlinkSync("./temp/temp.png");
                   res.json({
                     message: "Success",

@@ -18,7 +18,7 @@ module.exports = {
   addProduct: async (req, res) => {
     const category_name = req.body.category_name || "";
     const user_id = req.body.user_id || "";
-
+    console.log({category_name, user_id});
     if (category_name === "") {
       res.json({
         error: "Invalid Inputs",
@@ -26,18 +26,14 @@ module.exports = {
           category_name: "Enter a valid category name",
         },
       });
-    }
-
-    if (user_id === "") {
+    } else if (user_id === "") {
       res.json({
         error: "Invalid Inputs",
         data: {
           user_id: "Enter a valid User ID",
         },
       });
-    }
-
-    if (req.file === undefined || req.file === null) {
+    } else if (req.file === undefined || req.file === null) {
       res.json({
         error: "Invalid Inputs",
         data: {
@@ -91,7 +87,7 @@ module.exports = {
     }
   },
 
-  getAll: async (req, res) => {
+  getAll: async (req, res) => { 
     console.log(req.userId);
 
     ProductModel.find({user_id: req.userId}, (err, data) => {
