@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MintNft from "../Chatur/MintNft";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
 import plusImage from "../../Assets/plus_sign.png";
@@ -18,6 +18,7 @@ const getAllProducts = async (token) => {
 };
 
 const ProductCard = () => {
+const navigate = useNavigate();
   const [isModal, setIsModal] = useState(false);
   const [token, logout] = useNFTityStore((state) => [
     state.jwtToken,
@@ -51,7 +52,7 @@ const ProductCard = () => {
     <div className="w-screen">
       <div className="grid lg:grid-cols-3 lg:gap-2 md:grid-cols-2  sm:grid-cols-1  m-5">
         <div className=" max-w-xs bg-white border border-gray-200 rounded-xl shadow m-auto">
-          <button className="shadow-sm hover:shadow-xl hover:shadow-violet-500 transition-all">
+          <button className="shadow-sm hover:shadow-xl hover:shadow-violet-500 transition-all" onClick={()=>{navigate('/create-category');}}>
             <img src={plusImage} className="rounded-t-lg p-6" />
             <div className="p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
