@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import MintNft from "../Chatur/MintNft";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
 import plusImage from "../../Assets/plus_sign.png";
-import { useNavigate } from "react-router";
 
 const getAllProducts = async (token) => {
   const data = await fetch("http://localhost:5001/api/products/", {
