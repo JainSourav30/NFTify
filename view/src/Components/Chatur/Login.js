@@ -48,7 +48,7 @@ const Login = () => {
 	}, [loginData, login, logout, navigate]);
 
   return /* !close ? */ (
-    <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 -z-10">
+    <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
       {/* <div className="absolute top-0 right-0 ">
         <button
           className="pr-1 pt-0 text-lg font-semibold"
