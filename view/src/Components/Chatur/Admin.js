@@ -5,8 +5,10 @@ const Admin = () => {
 
 	return (
     	<>
-        handleOl
-        <ConnRequest name={"pranav"} phone={12343} mail={"123@g.com"}/>
+            <ConnRequest name={"Pranav"} phone={12343} mail={"123@g.com"} address={"0x133hfee7"}/>
+            <ConnRequest name={"Pranav"} phone={12343} mail={"123@g.com"} address={"0x133hfee7"}/>
+            <ConnRequest name={"Pranav"} phone={12343} mail={"123@g.com"} address={"0x133hfee7"}/>
+
         </>
     );
 }

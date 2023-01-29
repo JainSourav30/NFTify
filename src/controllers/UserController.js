@@ -62,7 +62,7 @@ const checkForErrors = async function (reqBody) {
   const phoneNumRegex = /^[0-9]{10}$/;
   for (let field of Object.keys(reqBody)) {
     if (reqBody[field] === "") {
-      errors = { ...errors, [field]: "This field is required." };
+      errors = { ...errors, [field]: `${field} is required` };
     }
     if (field === "email" && !validateEmail(reqBody[field])) {
       errors = { ...errors, [field]: "Not a valid email. " };

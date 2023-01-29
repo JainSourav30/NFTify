@@ -40,9 +40,9 @@ const Login = () => {
 		}
 	}, [loginData, login, logout]);
 
-  return !close ? (
-    <form className=" relative flex flex-col justify-around items-center h-2/3 w-1/2 border-4 p-10 border-black rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
-      <div className="absolute top-0 right-0 ">
+  return /* !close ? */ (
+    <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
+      {/* <div className="absolute top-0 right-0 ">
         <button
           className="pr-1 pt-0 text-lg font-semibold"
           onClick={(e) => {
@@ -52,7 +52,7 @@ const Login = () => {
         >
           x
         </button>
-      </div>
+      </div> */}
 
       {/* <SiVault size={100} className="m-2 text-purple-800"/> */}
       <GiBarbedSpear size={100} className="mb-2 text-purple-800" />
@@ -91,7 +91,7 @@ const Login = () => {
         Sign in
       </button>
     </form>
-  ) : (
+  /* ) : (
     <button
       className="font-bold"
       onClick={(e) => {
@@ -100,7 +100,7 @@ const Login = () => {
       }}
     >
       Login
-    </button>
+    </button> */
   );
 };
 
