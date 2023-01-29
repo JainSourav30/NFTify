@@ -3,6 +3,7 @@ import MintNft from "../Chatur/MintNft";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
+import plusImage from "../../Assets/plus_sign.png";
 
 const getAllProducts = async (token) => {
   const data = await fetch("http://localhost:5001/api/products/", {
@@ -10,17 +11,22 @@ const getAllProducts = async (token) => {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-    }
-  }).then(res => res.json());
+    },
+  }).then((res) => res.json());
 
   return data;
 };
 
 const ProductCard = () => {
   const [isModal, setIsModal] = useState(false);
-  const [token, logout] = useNFTityStore(state => [state.jwtToken, state.logout]);
+  const [token, logout] = useNFTityStore((state) => [
+    state.jwtToken,
+    state.logout,
+  ]);
   const [productList, setList] = useState([]);
-  const {data: productData} = useQuery(['products', token], () => getAllProducts(token));
+  const { data: productData } = useQuery(["products", token], () =>
+    getAllProducts(token)
+  );
 
   useEffect(() => {
     if (productData?.error) {
@@ -31,7 +37,7 @@ const ProductCard = () => {
       let c = productData.data.map((item, index) => ({
         key: index,
         prodName: item.category_name,
-        prodImg: item.img
+        prodImg: item.img,
       }));
       setList(c);
     }
@@ -44,6 +50,16 @@ const ProductCard = () => {
   return (
     <div className="w-screen">
       <div className="grid lg:grid-cols-3 lg:gap-2 md:grid-cols-2  sm:grid-cols-1  m-5">
+        <div className=" max-w-xs bg-white border border-gray-200 rounded-xl shadow m-auto">
+          <button className="shadow-sm hover:shadow-xl hover:shadow-violet-500 transition-all">
+            <img src={plusImage} className="rounded-t-lg p-6" />
+            <div className="p-5">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                Add Product
+              </h5>
+            </div>
+          </button>
+        </div>
         {productList.map((prod, key) => {
           return (
             <div
@@ -74,11 +90,7 @@ const ProductCard = () => {
           );
         })}
       </div>
-      {isModal ? (
-        <MintNft setModal={setIsModal} />
-      ) : (
-        console.log("no modal")
-      )}
+      {isModal ? <MintNft setModal={setIsModal} /> : console.log("no modal")}
     </div>
   );
 };
