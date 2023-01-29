@@ -6,28 +6,35 @@ import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
 import { useNavigate } from "react-router";
 
-const handleLogin = async ( email, password ) => {
-	const data = await fetch("http://localhost:5001/api/users/login", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({email, password}),
-	}).then(res => res.json());
+const handleLogin = async (email, password) => {
+  const data = await fetch("http://localhost:5001/api/users/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  }).then((res) => res.json());
 
-	return data;
-}
+  return data;
+};
 
 const Login = () => {
   // const [close, setClose] = useState(1);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [login, logout] = useNFTityStore((state) => [state.login, state.logout]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, logout] = useNFTityStore((state) => [
+    state.login,
+    state.logout,
+  ]);
   const navigate = useNavigate();
 
-  const {data: loginData, refetch} = useQuery(["login", email, password], () => handleLogin(email, password), {
-		enabled: false,
-	});
+  const { data: loginData, refetch } = useQuery(
+    ["login", email, password],
+    () => handleLogin(email, password),
+    {
+      enabled: false,
+    }
+  );
 
 	useEffect(() => {
 		if (loginData?.error) {
@@ -40,11 +47,11 @@ const Login = () => {
       } else {
         navigate("/dashboard");
       }
-		}
-	}, [loginData, login, logout, navigate]);
+    }
+  }, [loginData, login, logout, navigate]);
 
-  return /* !close ? */ (
-    <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
+  return (
+    /* !close ? */ <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
       {/* <div className="absolute top-0 right-0 ">
         <button
           className="pr-1 pt-0 text-lg font-semibold"
@@ -70,7 +77,7 @@ const Login = () => {
             name="name"
             placeholder="Email"
             className="w-full mx-2 "
-						onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="border-2 border-black rounded-lg flex justify-left w-full text-gray-600 bg-white ">
@@ -80,21 +87,27 @@ const Login = () => {
             name="name"
             placeholder="Password"
             className="w-full mx-2 "
-						onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {loginData?.data.errors?
-            <div className="text-red-500 font-semibold">{loginData.data.errors.email || loginData.data.errors.password}</div>: null}
+        {loginData?.data.errors ? (
+          <div className="text-red-500 font-semibold">
+            {loginData.data.errors.email || loginData.data.errors.password}
+          </div>
+        ) : null}
       </div>
 
-      <button className="bg-violet-700 text-white border-2 w-full rounded-lg border-black p-1 mt-4" onClick={(e) => {
-				e.preventDefault();
-				refetch()
-			}}>
+      <button
+        className="bg-violet-700 text-white border-2 w-full rounded-lg border-black p-1 mt-4"
+        onClick={(e) => {
+          e.preventDefault();
+          refetch();
+        }}
+      >
         Sign in
       </button>
     </form>
-  /* ) : (
+    /* ) : (
     <button
       className="font-bold"
       onClick={(e) => {

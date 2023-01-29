@@ -40,11 +40,9 @@ const CreateCategory = () => {
     }
   }, [productData, logout]);
 
-  return (
-    <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
-      <div className="text-2xl font-semibold m-6">
-        Enter Product Category and Image
-      </div>
+    return (
+	<form className=" relative flex flex-col justify-around items-center h-1/2 w-full  px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
+      <div className="text-2xl font-semibold m-6">Enter Product Category and Image</div>
       <div className="flex flex-col justify-evenly items-center h-60 w-full bg-gray-100 p-4 rounded-lg border-4 border-black">
         <div className="border-2 border-black rounded-lg flex justify-left w-full text-gray-600 bg-white ">
           <MdOutlineCategory size={25} />

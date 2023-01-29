@@ -44,7 +44,7 @@ const JoinUs = () => {
   }, [joinUsData]);
 
   return /* !close ? */ (
-    <form className=" relative flex flex-col justify-around items-center h-96 w-full px-48 py-2 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
+    <form className=" relative flex flex-col justify-around items-center h-96 w-full px-48 py-2 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300">
       {/* <div className="absolute top-0 right-0">
         <button
           className="pr-1 pt-0 text-lg font-semibold"

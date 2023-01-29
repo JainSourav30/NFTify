@@ -8,7 +8,7 @@ import { RxAvatar } from "react-icons/rx";
 const Navbar = () => {
   return (
     <div>
-      <nav className="relative w-screen border-gray-200 opacity-90 px-2 sm:px-4 py-2.5 bg-violet-700">
+      <nav className="relative w-screen border-gray-200 opacity-90 overflow-hidden py-2.5 bg-violet-700">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <a href="#" className="flex items-center">
             <GiBarbedSpear size={50} className="mr-3 text-white" />

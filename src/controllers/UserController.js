@@ -1,8 +1,36 @@
+const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/Users");
 const CompanyModel = require("../models/Company");
 const ObjectId = require("mongoose").Types.ObjectId;
+
+const sendEmail = (email, pass) => {
+  const mailText = `Here are your credentials for a smooth login and further experience.\n Email : ${email}, Password : ${pass} \n We highly recommend you to please change the password on first login`;
+
+  let mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "nftify.team@gmail.com",
+      pass: "wejqetzjibdojeke",
+    },
+  });
+
+  let details = {
+    from: "nftify.team@gmail.com",
+    to: email,
+    subject: "Congratulations! You're now a part of NFTify",
+    text: mailText,
+  };
+
+  mailTransporter.sendMail(details, (err) => {
+    if (err) {
+      console.log("Mail service has error bro - ", err);
+    } else {
+      console.log("Email sent");
+    }
+  });
+};
 
 const validateEmail = (email) => {
   const re =
@@ -204,7 +232,7 @@ module.exports = {
 
   confirmCompany: async (req, res) => {
     const companyID = req.body.companyID || "";
-    
+
     let errors = {};
     if (companyID === "") {
       errors = {
@@ -228,44 +256,51 @@ module.exports = {
             data: {},
           });
         } else {
-          const newUser = new UserModel({
-            name: companyInfo.name,
-            email: companyInfo.email,
-            phone: companyInfo.phone,
-            wallet_address: companyInfo.wallet_address,
-          });
-          bcrypt.genSalt(10, (err, salt) => {
-            if (err) {
-              return err;
-            } else {
-              bcrypt.hash("1", salt, (err, hash) => {
-                if (err) {
-                  return err;
-                } else {
-                  newUser.password = hash;
-                  newUser
-                    .save()
-                    .then(() => {
-                      CompanyModel.deleteOne({ _id: companyInfo._id })
-                        .then(() => {
-                          res.json({
-                            message: "Success",
-                            data: {},
+          if (companyInfo) {
+            const newUser = new UserModel({
+              name: companyInfo.name,
+              email: companyInfo.email,
+              phone: companyInfo.phone,
+              wallet_address: companyInfo.wallet_address,
+            });
+            bcrypt.genSalt(10, (err, salt) => {
+              if (err) {
+                return err;
+              } else {
+                bcrypt.hash("firstPass", salt, (err, hash) => {
+                  if (err) {
+                    return err;
+                  } else {
+                    newUser.password = hash;
+                    newUser
+                      .save()
+                      .then(() => {
+                        CompanyModel.deleteOne({ _id: companyInfo._id })
+                          .then(() => {
+                            //Send Email
+                            sendEmail(companyInfo.email, "firstPass");
+                            res.json({
+                              message: "Success",
+                              data: {},
+                            });
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            res.json({
+                              error: "Something went wrong",
+                              data: {},
+                            });
                           });
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                          res.json({ error: "Something went wrong", data: {} });
-                        });
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      res.json({ error: "Something went wrong", data: {} });
-                    });
-                }
-              });
-            }
-          });
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        res.json({ error: "Something went wrong", data: {} });
+                      });
+                  }
+                });
+              }
+            });
+          }
         }
       });
     }
@@ -337,7 +372,7 @@ module.exports = {
         console.log(err);
         res.json({
           error: "Something went wrong",
-          data: {}
+          data: {},
         });
       } else {
         res.json({
@@ -356,31 +391,31 @@ module.exports = {
         error: "Invalid Input",
         data: {
           id: "Cannot be empty",
-        }
+        },
       });
     } else {
-      CompanyModel.deleteOne({_id: ObjectId(id)}, (err, data) => {
+      CompanyModel.deleteOne({ _id: ObjectId(id) }, (err, data) => {
         if (err) {
           console.log(err);
           res.json({
             error: "Something went wrong",
-            data: {}
+            data: {},
           });
         } else {
           console.log(data);
           if (data) {
             res.json({
               message: "Success",
-              data: {}
+              data: {},
             });
           } else {
             res.json({
               error: "ID not found",
-              data: {}
+              data: {},
             });
           }
         }
       });
     }
-  }
+  },
 };
