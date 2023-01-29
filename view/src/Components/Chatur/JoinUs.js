@@ -19,7 +19,7 @@ const handleJoinUs = async ( email, phone, name, wallet_address ) => {
 }
 
 const JoinUs = () => {
-  const [close, setClose] = useState(1);
+  // const [close, setClose] = useState(1);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");

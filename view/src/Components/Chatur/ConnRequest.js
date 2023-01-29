@@ -17,10 +17,11 @@ const ConnRequest = ({name, phone, mail, address, handleAccept, handleReject}) =
             </div>
             <div >
                 <button className="bg-emerald-500 h-full mx-1 w-16 border-2 border-black rounded-lg" onClick={handleAccept}> Accept</button>
-                <button className="bg-red-600 h-full w-16 border-2 border-black rounded-lg" onClick={handleReject}> Reject</button>
+                <button className="bg-red-600 h-full w-16 border-2 border-black rounded-lg" onClick={(e) => {
+                    e.preventDefault();
+                    handleReject();
+                }}> Reject</button>
             </div>
-
-        
         </div>
     );
 }
