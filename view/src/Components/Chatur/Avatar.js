@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {RxAvatar} from "react-icons/rx";
 import ButtonGroup from "./ButtonGroup";
-import useNFTityStore from "../../store";
 
 const Avatar = ({size}) => {
     const [showMenu, setShowMenu] = useState(0);

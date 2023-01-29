@@ -28,7 +28,21 @@ const rejectReq = async (token, id) => {
     }).then(res => res.json());
 
     return data;
-}
+};
+
+const acceptReq = async (token, id) => {
+    console.log(id);
+    const data = await fetch("http://localhost:5001/api/users/approve", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({id}),
+    }).then(res => res.json());
+
+    return data;
+};
 
 const Admin = () => {
     const [token, admin, logout] = useNFTityStore(state => [state.jwtToken, state.admin, state.logout]);
@@ -67,6 +81,13 @@ const Admin = () => {
         }
     }, [delData, logout, navigate, pendingRefetch]);
 
+    useEffect(() => {
+        if (id !== "") {
+            delRefetch();
+            setID("");
+        }
+    }, [id, delRefetch]);
+
 	return (
     	<>
             {data?.map((item, idx) => (
@@ -77,11 +98,10 @@ const Admin = () => {
                     phone={item.phone} 
                     mail={item.email} 
                     address={item.wallet_address}
-                    reject={() => {
+                    handleReject={() => {
                         setID(item._id);
-                        delRefetch();
-                        console.log("DONE");
                     }}
+                    handleAccept={() => {}}
                 />
             ))}
         </>
