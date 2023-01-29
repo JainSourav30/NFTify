@@ -19,7 +19,6 @@ const getAllProducts = async (token) => {
 };
 
 const ProductCard = () => {
-const navigate = useNavigate();
   const [isModal, setIsModal] = useState(false);
   const navigate = useNavigate();
   const [token, logout] = useNFTityStore((state) => [
