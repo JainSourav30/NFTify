@@ -3,6 +3,7 @@ require("dotenv").config();
 const { abi } = require("../ABI.json");
 const { NFTStorage, File } = require("nft.storage");
 const ProductModel = require("../models/Products");
+const UserModel = require("../models/Users");
 const ObjectId = require("mongoose").Types.ObjectId;
 const fs = require("fs");
 const request = require("request");
@@ -39,27 +40,38 @@ module.exports = {
           });
         } else {
           if (result) {
-            await download(result.img, "./temp/temp.png", async () => {
-              const metadata = await client.store({
-                name: `${result.category_name}-${product_id}`,
-                description: `An authencity certificate NFT`,
-                dateOfCreation: Date.now(),
-                image: new File(
-                  [await fs.promises.readFile("./temp/temp.png")],
-                  `${result.category_id}-${product_id}.png`,
-                  { type: "image/png" }
-                ),
-              });
-              console.log(metadata.url);
-              const data = await contract.mintNFT(signer.address, metadata.url);
-              console.log(data);
-              fs.unlinkSync("./temp/temp.png");
-              res.json({
-                message: "Success",
-                data: {
-                  nft_hash: data.hash
-                }
-              });
+            UserModel.findOne({_id: result.user_id}, async (err, result1) => {
+              if (err) {
+                res.json({
+                  error: "Something went wrong",
+                  data: {}
+                });
+              } else {
+                console.log(result1.wallet_address);
+                await download(result.img, "./temp/temp.png", async () => {
+                  const metadata = await client.store({
+                    name: `${result.category_name}-${product_id}`,
+                    description: `An authencity certificate NFT`,
+                    dateOfCreation: Date.now(),
+                    image: new File(
+                      [await fs.promises.readFile("./temp/temp.png")],
+                      `${result.category_id}-${product_id}.png`,
+                      { type: "image/png" }
+                    ),
+                  });
+                  console.log(metadata.url);
+                  const data = await contract.mintNFT(signer.address, metadata.url);
+                  const data1 = await contract.transferOwnership(result1.wallet_address);
+                  console.log(data1);
+                  fs.unlinkSync("./temp/temp.png");
+                  res.json({
+                    message: "Success",
+                    data: {
+                      nft_hash: data.hash
+                    }
+                  });
+                });
+              }
             });
           } else {
             res.json({
