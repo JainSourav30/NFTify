@@ -28,14 +28,32 @@ const rejectReq = async (token, id) => {
     }).then(res => res.json());
 
     return data;
-}
+};
+
+const acceptReq = async (token, id) => {
+    console.log(id);
+    const data = await fetch("http://localhost:5001/api/users/approve", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({companyID: id}),
+    }).then(res => res.json());
+
+    return data;
+};
 
 const Admin = () => {
     const [token, admin, logout] = useNFTityStore(state => [state.jwtToken, state.admin, state.logout]);
     const [data, setData] = useState([]);
-    const [id, setID] = useState("");
+    const [rId, setRID] = useState("");
+    const [aId, setAID] = useState("");
     const {data: pendingData, refetch: pendingRefetch} = useQuery(['products', token], () => getAllPending(token));
-    const {data: delData, refetch: delRefetch} = useQuery(['reject', token, id], () => rejectReq(token, id), {
+    const {data: delData, refetch: delRefetch} = useQuery(['reject', token, rId], () => rejectReq(token, rId), {
+        enabled: false,
+    });
+    const {data: acceptData, refetch: acceptRefetch} = useQuery(['reject', token, aId], () => acceptReq(token, aId), {
         enabled: false,
     });
     const navigate = useNavigate();
@@ -67,6 +85,30 @@ const Admin = () => {
         }
     }, [delData, logout, navigate, pendingRefetch]);
 
+    useEffect(() => {
+        if (acceptData?.error) {
+            logout();
+            navigate("/login");    
+        } else if (acceptData?.message) {
+            console.log(acceptData?.data);
+            pendingRefetch();
+        }
+    }, [acceptData, logout, navigate, pendingRefetch]);
+
+    useEffect(() => {
+        if (rId !== "") {
+            delRefetch();
+            setRID("");
+        }
+    }, [rId, delRefetch]);
+
+    useEffect(() => {
+        if (aId !== "") {
+            acceptRefetch();
+            setAID("");
+        }
+    }, [aId, acceptRefetch]);
+
 	return (
     	<>
             {data?.map((item, idx) => (
@@ -77,10 +119,11 @@ const Admin = () => {
                     phone={item.phone} 
                     mail={item.email} 
                     address={item.wallet_address}
-                    reject={() => {
-                        setID(item._id);
-                        delRefetch();
-                        console.log("DONE");
+                    handleReject={() => {
+                        setRID(item._id);
+                    }}
+                    handleAccept={() => {
+                        setAID(item._id);
                     }}
                 />
             ))}

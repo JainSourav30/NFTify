@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import { QueryClient, QueryClientProvider } from "react-query";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  refetchOnFocus: false,
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

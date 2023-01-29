@@ -204,7 +204,7 @@ module.exports = {
 
   confirmCompany: async (req, res) => {
     const companyID = req.body.companyID || "";
-
+    
     let errors = {};
     if (companyID === "") {
       errors = {
