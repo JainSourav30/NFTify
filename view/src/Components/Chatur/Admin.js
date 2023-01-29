@@ -38,7 +38,7 @@ const acceptReq = async (token, id) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({id}),
+        body: JSON.stringify({companyID: id}),
     }).then(res => res.json());
 
     return data;
@@ -47,9 +47,13 @@ const acceptReq = async (token, id) => {
 const Admin = () => {
     const [token, admin, logout] = useNFTityStore(state => [state.jwtToken, state.admin, state.logout]);
     const [data, setData] = useState([]);
-    const [id, setID] = useState("");
+    const [rId, setRID] = useState("");
+    const [aId, setAID] = useState("");
     const {data: pendingData, refetch: pendingRefetch} = useQuery(['products', token], () => getAllPending(token));
-    const {data: delData, refetch: delRefetch} = useQuery(['reject', token, id], () => rejectReq(token, id), {
+    const {data: delData, refetch: delRefetch} = useQuery(['reject', token, rId], () => rejectReq(token, rId), {
+        enabled: false,
+    });
+    const {data: acceptData, refetch: acceptRefetch} = useQuery(['reject', token, aId], () => acceptReq(token, aId), {
         enabled: false,
     });
     const navigate = useNavigate();
@@ -82,11 +86,28 @@ const Admin = () => {
     }, [delData, logout, navigate, pendingRefetch]);
 
     useEffect(() => {
-        if (id !== "") {
-            delRefetch();
-            setID("");
+        if (acceptData?.error) {
+            logout();
+            navigate("/login");    
+        } else if (acceptData?.message) {
+            console.log(acceptData?.data);
+            pendingRefetch();
         }
-    }, [id, delRefetch]);
+    }, [acceptData, logout, navigate, pendingRefetch]);
+
+    useEffect(() => {
+        if (rId !== "") {
+            delRefetch();
+            setRID("");
+        }
+    }, [rId, delRefetch]);
+
+    useEffect(() => {
+        if (aId !== "") {
+            acceptRefetch();
+            setAID("");
+        }
+    }, [aId, acceptRefetch]);
 
 	return (
     	<>
@@ -99,9 +120,11 @@ const Admin = () => {
                     mail={item.email} 
                     address={item.wallet_address}
                     handleReject={() => {
-                        setID(item._id);
+                        setRID(item._id);
                     }}
-                    handleAccept={() => {}}
+                    handleAccept={() => {
+                        setAID(item._id);
+                    }}
                 />
             ))}
         </>
