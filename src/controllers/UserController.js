@@ -233,7 +233,6 @@ module.exports = {
             email: companyInfo.email,
             phone: companyInfo.phone,
             wallet_address: companyInfo.wallet_address,
-            admin: true,
           });
           bcrypt.genSalt(10, (err, salt) => {
             if (err) {
@@ -310,6 +309,7 @@ module.exports = {
       if (authToken) {
         jwt.verify(authToken, process.env.JWT_KEY, (err, decoded) => {
           if (err) {
+            console.log(authToken);
             if (err.name === "TokenExpiredError") {
               res.status(440).json({ error: "Session Expired.", data: {} });
             } else {
@@ -330,4 +330,57 @@ module.exports = {
       }
     }
   },
+
+  getPending: async (req, res) => {
+    CompanyModel.find({}, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({
+          error: "Something went wrong",
+          data: {}
+        });
+      } else {
+        res.json({
+          message: "Success",
+          data,
+        });
+      }
+    });
+  },
+
+  reject: async (req, res) => {
+    const id = req.body.id || "";
+
+    if (id === "") {
+      res.json({
+        error: "Invalid Input",
+        data: {
+          id: "Cannot be empty",
+        }
+      });
+    } else {
+      CompanyModel.deleteOne({_id: ObjectId(id)}, (err, data) => {
+        if (err) {
+          console.log(err);
+          res.json({
+            error: "Something went wrong",
+            data: {}
+          });
+        } else {
+          console.log(data);
+          if (data) {
+            res.json({
+              message: "Success",
+              data: {}
+            });
+          } else {
+            res.json({
+              error: "ID not found",
+              data: {}
+            });
+          }
+        }
+      });
+    }
+  }
 };

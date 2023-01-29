@@ -9,4 +9,6 @@ const upload = multer({storage});
 
 router.post("/new", userControllers.isAuthenticated, upload.single("image"), productControllers.addProduct);
 
+router.get("/", userControllers.isAuthenticated, productControllers.getAll);
+
 module.exports = router;

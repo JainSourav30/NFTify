@@ -7,6 +7,7 @@ import { GiChessRook } from "react-icons/gi";
 import { GiMonkey } from "react-icons/gi";
 import { useQuery } from "react-query";
 import useNFTityStore from "../../store";
+import { useNavigate } from "react-router";
 
 const handleLogin = async ( email, password ) => {
 	const data = await fetch("http://localhost:5001/api/users/login", {
@@ -21,10 +22,11 @@ const handleLogin = async ( email, password ) => {
 }
 
 const Login = () => {
-  const [close, setClose] = useState(1);
+  // const [close, setClose] = useState(1);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [jwtToken, login, logout] = useNFTityStore((state) => [state.jwtToken, state.login, state.logout]);
+	const [login, logout] = useNFTityStore((state) => [state.login, state.logout]);
+  const navigate = useNavigate();
 
   const {data: loginData, refetch} = useQuery(["login", email, password], () => handleLogin(email, password), {
 		enabled: false,
@@ -35,10 +37,15 @@ const Login = () => {
 			console.log(loginData.data);
 			logout();
 		} else if (loginData?.data) {
-			login(loginData.data.token);
+			login(loginData.data.token, loginData.data.admin);
       // TODO: redirect to Dashboard
+      if (loginData.data.admin) {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
 		}
-	}, [loginData, login, logout]);
+	}, [loginData, login, logout, navigate]);
 
   return /* !close ? */ (
     <form className=" relative flex flex-col justify-around items-center h-1/2 w-full px-40 py-24 rounded-lg bg-gradient-to-b from-blue-200 to-purple-300 ">
