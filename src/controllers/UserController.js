@@ -18,7 +18,7 @@ const sendEmail = (email, pass) => {
 
   let details = {
     from: "nftify.team@gmail.com",
-    to: "jainsourav194@gmail.com",
+    to: email,
     subject: "Congratulations! You're now a part of NFTify",
     text: mailText,
   };
@@ -256,46 +256,51 @@ module.exports = {
             data: {},
           });
         } else {
-          const newUser = new UserModel({
-            name: companyInfo.name,
-            email: companyInfo.email,
-            phone: companyInfo.phone,
-            wallet_address: companyInfo.wallet_address,
-          });
-          bcrypt.genSalt(10, (err, salt) => {
-            if (err) {
-              return err;
-            } else {
-              bcrypt.hash("firstPass", salt, (err, hash) => {
-                if (err) {
-                  return err;
-                } else {
-                  newUser.password = hash;
-                  newUser
-                    .save()
-                    .then(() => {
-                      CompanyModel.deleteOne({ _id: companyInfo._id })
-                        .then(() => {
-                          //Send Email
-                          sendEmail(companyInfo.email, "firstPass");
-                          res.json({
-                            message: "Success",
-                            data: {},
+          if (companyInfo) {
+            const newUser = new UserModel({
+              name: companyInfo.name,
+              email: companyInfo.email,
+              phone: companyInfo.phone,
+              wallet_address: companyInfo.wallet_address,
+            });
+            bcrypt.genSalt(10, (err, salt) => {
+              if (err) {
+                return err;
+              } else {
+                bcrypt.hash("firstPass", salt, (err, hash) => {
+                  if (err) {
+                    return err;
+                  } else {
+                    newUser.password = hash;
+                    newUser
+                      .save()
+                      .then(() => {
+                        CompanyModel.deleteOne({ _id: companyInfo._id })
+                          .then(() => {
+                            //Send Email
+                            sendEmail(companyInfo.email, "firstPass");
+                            res.json({
+                              message: "Success",
+                              data: {},
+                            });
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            res.json({
+                              error: "Something went wrong",
+                              data: {},
+                            });
                           });
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                          res.json({ error: "Something went wrong", data: {} });
-                        });
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      res.json({ error: "Something went wrong", data: {} });
-                    });
-                }
-              });
-            }
-          });
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        res.json({ error: "Something went wrong", data: {} });
+                      });
+                  }
+                });
+              }
+            });
+          }
         }
       });
     }
