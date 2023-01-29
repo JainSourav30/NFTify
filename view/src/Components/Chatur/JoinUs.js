@@ -24,6 +24,7 @@ const JoinUs = () => {
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [wallet_address, setAddr] = useState("");
+  const [success, setSuccess] = useState("");
   
   const {data: joinUsData, refetch} = useQuery(["login", email, phone, name, wallet_address], () => handleJoinUs(email, phone, name, wallet_address), {
 		enabled: false,
@@ -31,13 +32,14 @@ const JoinUs = () => {
 
   useEffect(() => {
     if (joinUsData?.error) {
-      console.log(joinUsData.data);
+      console.log(joinUsData);
     } else if (joinUsData?.message) {
       setAddr("");
       setEmail("");
       setPhone("");
       setName("");
-      // TODO: Congratulate the user that his request has been published
+      
+      setSuccess("Application submitted successfully.");
     }
   }, [joinUsData]);
 
@@ -102,6 +104,11 @@ const JoinUs = () => {
             onChange={(e) => setAddr(e.target.value)}
           />
         </div>
+        {joinUsData?.error?
+            <div className="text-red-500 font-semibold">{joinUsData.data.email || joinUsData.data.phone || joinUsData.data.name ||  joinUsData.data.wallet_address}</div>: null}
+        {success !== "" ? 
+          <div className="text-green-500 font-semibold">{success}</div>: null
+        }
       </div>
 
       <button className="bg-violet-700 text-white border-2 w-full rounded-lg border-black p-1"
